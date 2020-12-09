@@ -3,10 +3,10 @@ package compression;
 public class Branch<T> {
 
 	public boolean isLeaf;
-	public T left, right;
+	public Branch<T> left, right;
 	public T info;
 	
-	public Branch (T child1, T child2) {
+	public Branch (Branch<T> child1, Branch<T> child2, boolean isLeaf) {
 		
 		this.left = child1;
 		this.right = child2;
@@ -14,7 +14,7 @@ public class Branch<T> {
 		
 	}
 	
-	public Branch (T info) {
+	public Branch (T info, boolean isLeaf) {
 		
 		this.info = info;
 		isLeaf = true;

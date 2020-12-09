@@ -6,7 +6,7 @@ public class PriorityQueue<T> {
 
 	private ArrayList<Node<T>> queue = new ArrayList<Node<T>>();
 	
-	private void add (T info, int priority) {
+	public void add (T info, int priority) {
 		
 		Node<T> node = new Node (priority, info);
 		
@@ -70,9 +70,9 @@ public class PriorityQueue<T> {
 		
 		PriorityQueue<Character> myPQ = new PriorityQueue<Character>();
 		
-		myPQ.add('y', 6);
+		/*myPQ.add('y', 6);
 		
-		System.out.println(myPQ.toString());
+		System.out.println(myPQ.toString());*/
 		
 	}
 	

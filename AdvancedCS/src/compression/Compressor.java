@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Compressor {
@@ -42,7 +43,7 @@ public class Compressor {
 	public void compressFile () throws IOException {
 		
 		BufferedBitWriter writer = new BufferedBitWriter("compressedText");
-		BufferedReader s = new BufferedReader(new FileReader("textFile"));
+		BufferedReader s = new BufferedReader(new FileReader(fileName));
 		
 		int i;
 		while ((i = s.read()) != -1) {
@@ -143,10 +144,24 @@ public class Compressor {
 	HashMap<Character, String> codeMap = new HashMap<Character, String>();
 	PriorityQueue<Branch> queue = new PriorityQueue<Branch>();
 	FileWriter newFile = new FileWriter("codeFile");
+	Scanner in = new Scanner(System.in);
+	String fileName = "";
 	
 	public Compressor () throws IOException {
 		
-		BufferedReader s = new BufferedReader (new FileReader("textFile"));
+		BufferedReader s = null;
+			
+		try {
+			
+			System.out.println("Please enter the name of the text file you want to compress.");
+			fileName = in.next();
+			s = new BufferedReader (new FileReader(fileName));
+			
+		} catch (FileNotFoundException e) {
+			
+			System.out.println("Sorry, the specified file does not exist.");
+			
+		}
 		
 		int i;
 		while ((i = s.read()) != -1) {
@@ -191,10 +206,23 @@ public class Compressor {
 		//System.out.println(queue.size());
 		
 		createCode(queue.pop().info, "");
-		printCode();
+		//printCode();
 		compressFile();
 		createCodeFile();
-		decompressFile();
+		System.out.println("The specified file has been compressed. Do you want to decompress it? (press y for yes and any other letter for no)");
+		String decompress = in.next();
+		
+		if (decompress.equals("y") || decompress.equals("Y")) {
+		
+			decompressFile();
+			System.out.println("The compressed file has been decompressed.");
+			
+		} else {
+			
+			System.out.println("Your file will not be decompressed");
+			
+		}
+		
 		//System.out.println(map);
 		
 	}

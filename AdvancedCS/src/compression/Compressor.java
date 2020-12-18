@@ -1,9 +1,11 @@
 package compression;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Compressor {
 	
@@ -16,10 +18,54 @@ public class Compressor {
 			
 			codeMap.put((Character) branch.info, code);
 			
+		} else {
+		
+			createCode(left, code+"0");
+			createCode(right, code+"1");
+			
 		}
 		
-		createCode(left, code+"0");
-		createCode(right, code+"1");
+	}
+	
+	public void printCode () {
+		
+		Set<Character> keys = codeMap.keySet();
+		for (char ch : keys) {
+			
+			System.out.println(ch+" = "+codeMap.get(ch));
+			
+		}
+		
+	}
+	
+	public void compressFile () throws IOException {
+		
+		BufferedBitWriter writer = new BufferedBitWriter("compressedText");
+		BufferedReader s = new BufferedReader(new FileReader("test.txt"));
+		
+		for (int i = s.read(); i != -1; i = s.read()) {
+			
+			Character ch = (char) s.read();
+			String code = codeMap.get(ch);
+			
+			for (int j = 0; j < code.length(); j++) {
+				
+				if (code.charAt(j) == '0') {
+					
+					writer.writeBit(false);
+					
+				} else {
+					
+					writer.writeBit(true);
+					
+				}
+				
+			}
+			
+		}
+		
+		writer.close();
+		s.close();
 		
 	}
 	
@@ -49,14 +95,17 @@ public class Compressor {
 		
 		s.close();
 
-		for (Character key : map.keySet()) {
+		Set<Character> keys = map.keySet();
+		for (char ch : keys) {
 			
-			Branch<Character> branch = new Branch<Character>(key, true);
-			queue.add(branch, map.get(key));
+			Branch<Character> branch = new Branch<Character>(ch, true);
+			queue.add(branch, map.get(ch));
 			
 		}
 		
-		while (queue.size() > 1) {
+		//System.out.println(queue);
+		
+		while (queue.size() != 1) {
 		
 			Node<Branch> branch1 = queue.pop();
 			Node<Branch> branch2 = queue.pop();
@@ -68,9 +117,12 @@ public class Compressor {
 			
 		}
 		
-		//createCode(queue.pop().info, "");
+		//System.out.println(queue.size());
 		
-		System.out.println(map);
+		createCode(queue.pop().info, "");
+		//printCode();
+		compressFile();
+		//System.out.println(map);
 		
 	}
 	

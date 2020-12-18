@@ -3,6 +3,7 @@ package compression;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
@@ -16,7 +17,7 @@ public class Compressor {
 		
 		if (branch.isLeaf) {
 			
-			codeMap.put((Character) branch.info, code);
+			codeMap.put((char) branch.info, code);
 			
 		} else {
 		
@@ -41,11 +42,12 @@ public class Compressor {
 	public void compressFile () throws IOException {
 		
 		BufferedBitWriter writer = new BufferedBitWriter("compressedText");
-		BufferedReader s = new BufferedReader(new FileReader("test.txt"));
+		BufferedReader s = new BufferedReader(new FileReader("textFile"));
 		
-		for (int i = s.read(); i != -1; i = s.read()) {
+		int i;
+		while ((i = s.read()) != -1) {
 			
-			Character ch = (char) s.read();
+			Character ch = (char)(i);
 			String code = codeMap.get(ch);
 			
 			for (int j = 0; j < code.length(); j++) {
@@ -69,17 +71,87 @@ public class Compressor {
 		
 	}
 	
+	public void decompressFile () throws IOException {
+		
+		BufferedBitReader reader = new BufferedBitReader("compressedText");
+		FileWriter decompressed = new FileWriter("decompressedText");
+		BufferedReader s = new BufferedReader(new FileReader("codeFile"));
+		
+		HashMap<String, String> rebuiltCodeMap = new HashMap<String, String>();
+		
+		String code1;
+		while ((code1 = s.readLine()) != null) {
+			
+			rebuiltCodeMap.put(code1, s.readLine());
+			
+		}
+		
+		s.close();
+		//System.out.println(rebuiltCodeMap);
+		
+		Set<String> codeKeys = rebuiltCodeMap.keySet();
+		
+		String code2 = "";
+		
+		while (reader.hasNext()) {
+			
+			boolean bit = reader.readBit();
+			
+			if (bit) {
+				
+				code2 += "1";
+				
+			} else {
+				
+				code2 += "0";
+				
+			}
+			
+			for (String c : codeKeys) {
+				
+				if (code2.equals(c)) {
+					
+					decompressed.write(rebuiltCodeMap.get(c));
+					code2 = "";
+					break;
+					
+				}
+				
+			}
+			
+		}
+		
+		reader.close();
+		decompressed.close();
+		
+	}
+	
+	public void createCodeFile () throws IOException {
+		
+		Set<Character> keys = codeMap.keySet();
+		for (char ch : keys) {
+			
+			newFile.write(codeMap.get(ch)+"\n"+ch+"\n");
+			
+		}
+		
+		newFile.close();
+		
+	}
+	
 	HashMap<Character, Integer> map = new HashMap<Character, Integer>();
 	HashMap<Character, String> codeMap = new HashMap<Character, String>();
 	PriorityQueue<Branch> queue = new PriorityQueue<Branch>();
+	FileWriter newFile = new FileWriter("codeFile");
 	
 	public Compressor () throws IOException {
 		
-		BufferedReader s = new BufferedReader(new FileReader("test.txt"));
+		BufferedReader s = new BufferedReader (new FileReader("textFile"));
 		
-		while(s.read() != -1) {
+		int i;
+		while ((i = s.read()) != -1) {
 			
-			Character ch = (char) s.read();
+			Character ch = (char)(i);
 			
 			int prev = 0;
 			
@@ -96,14 +168,13 @@ public class Compressor {
 		s.close();
 
 		Set<Character> keys = map.keySet();
+		
 		for (char ch : keys) {
 			
 			Branch<Character> branch = new Branch<Character>(ch, true);
 			queue.add(branch, map.get(ch));
 			
 		}
-		
-		//System.out.println(queue);
 		
 		while (queue.size() != 1) {
 		
@@ -120,8 +191,10 @@ public class Compressor {
 		//System.out.println(queue.size());
 		
 		createCode(queue.pop().info, "");
-		//printCode();
+		printCode();
 		compressFile();
+		createCodeFile();
+		decompressFile();
 		//System.out.println(map);
 		
 	}

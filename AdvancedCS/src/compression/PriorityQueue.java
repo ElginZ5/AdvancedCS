@@ -2,80 +2,67 @@ package compression;
 
 import java.util.ArrayList;
 
-public class PriorityQueue<T> {
-
-	private ArrayList<Node<T>> queue = new ArrayList<Node<T>>();
+public class PriorityQueue<E> {
 	
-	public void add (T info, int priority) {
-		
-		Node<T> node = new Node (priority, info);
+	private ArrayList<Node<E>> queue = new ArrayList<Node<E>>();
+	
+	public int size() {
+		return queue.size();
+	}
+	
+	public String toString() {
+		return queue.toString();
+	}
+	
+	public Node<E> pop() {
+		return queue.remove(queue.size()-1);
+	}
+	
+	public void add(E info, int priority) {
+		Node<E> newNode = new Node(priority, info);
 		
 		if (queue.size() == 0) {
-			
-			queue.add(node);
-			
-		} else if (queue.get(0).priority < node.priority) {
-			
-			queue.add(0, node);
-			
-		} else if (queue.get(queue.size()-1).priority > node.priority) {
-			
-			queue.add(node);
-			
-		} else {
+			queue.add(newNode);
+		}
+		
+		else if (queue.get(0).priority < newNode.priority) {
+			queue.add(0, newNode);
+		}
+		
+		else if (queue.get(queue.size()-1).priority > newNode.priority) {
+			queue.add(newNode);
+		}
+	
+		else {
 			
 			int start = 0, end = queue.size()-1;
 			
 			while (start < end) {
 				
-				Node<T> midpoint = queue.get((start+end)/2);
+				Node<E> midpoint = queue.get((start+end)/2);
 				
-				if (midpoint.priority > node.priority) {
-					
+				if (midpoint.priority > newNode.priority) {
 					start = (start+end)/2 + 1;
-					
-				} else {
-					
-					end = (start+end)/2;
-					
 				}
 				
+				else {
+					end = (start+end)/2;
+				}
 			}
 			
-			queue.add(start, node);
-			
+			queue.add(start, newNode);
+		}
+	}
+
+	public static void main(String[] args) {
+		PriorityQueue<Character> myQ = new PriorityQueue<Character>();
+		
+		for (int i = 0; i< 100; i++) {
+			myQ.add('g', (int)(Math.random()*100));
 		}
 		
+		System.out.println(myQ);
+
 	}
-	
-	public int size () {
-		
-		return queue.size();
-		
-	}
-	
-	public String toString () {
-		
-		return queue.toString();
-		
-	}
-	
-	public Node<T> pop () {
-		
-		return queue.remove(queue.size()-1);
-		
-	}
-	
-	public static void main (String[] args) {
-		
-		PriorityQueue<Character> myPQ = new PriorityQueue<Character>();
-		
-		/*myPQ.add('y', 6);
-		
-		System.out.println(myPQ.toString());*/
-		
-	}
-	
+
 }
-
-

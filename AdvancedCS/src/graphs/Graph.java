@@ -1,4 +1,6 @@
 package graphs;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,6 +46,12 @@ public class Graph<E> {
 		public boolean equals (Vertex other) {
 			
 			return info.equals(other.info);
+			
+		}
+		
+		public String toString () {
+			
+			return info.toString();
 			
 		}
 		
@@ -122,6 +130,8 @@ public class Graph<E> {
 		g.addVertex("Jimmy");
 		g.addVertex("Adam");
 		
+		System.out.println(g.vertices);
+		
 		g.connect("Bob", "Elgin");
 		g.connect("Bob", "Jack");
 		g.connect("Jimmy", "Adam");
@@ -132,5 +142,6 @@ public class Graph<E> {
 		System.out.println(g.BFS("Bob", "Austin"));
 		
 	}
+	
 	
 }

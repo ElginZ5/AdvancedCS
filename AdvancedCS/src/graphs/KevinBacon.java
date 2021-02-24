@@ -282,7 +282,7 @@ public class KevinBacon<E, T> {
 		 
 		Font myFont = new Font("Arial", Font.BOLD, 16); // the font
 		
-		JFrame frame = new JFrame(); // new JFrame
+		JFrame frame = new JFrame("Kevin Bacon"); // new JFrame
 		 
 		JPanel panel = new JPanel(); // new JPanel
 		

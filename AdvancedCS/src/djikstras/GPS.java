@@ -80,8 +80,13 @@ public class GPS <E, T> {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
-				vertexPath.clear(); // clears vertex path and vertex info and also clears x and y loc 
-				vertexInfo.clear();
+				// clears vertex path and vertex info and also clears x and y loc 
+				if (!vertexPath.isEmpty())
+					vertexPath.clear(); 
+				
+				if (!vertexInfo.isEmpty())
+					vertexInfo.clear();
+				
 				xLoc = 0;
 				yLoc = 0;
 				frame.getContentPane().repaint();

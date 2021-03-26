@@ -145,7 +145,7 @@ public class GPS <E, T> {
 							LocationGraph<String, String>.Vertex v = g.vertices.get(vertexPath.get(i)); // gets the vertex
 							LocationGraph<String, String>.Vertex neighbor = ee.getNeighbor(v); // gets the neighbor of the edge of the vertex
 
-							if (vertexPath.contains(neighbor.toString())) { // if vertex path contains the neigbor
+							if (vertexPath.contains(neighbor.toString())) { // if vertex path contains the neighbor
 								
 								g2.setColor(Color.red); // sets it to red
 								g2.setStroke(new BasicStroke(8));
@@ -154,21 +154,21 @@ public class GPS <E, T> {
 								double distance = Math.floor(ee.label); // gets the distance
 								g2.setFont(myFont); // font
 								
-								if (distance > 0) { // makes it so the distance can be easily red
+								if (distance > 0) { // makes it so the distance can be easily read
 									
-									if (Math.abs(v.x-neighbor.x) < 40) {
+									if (Math.abs(v.x-neighbor.x) < 40) { // if the two vertices' x values are around the same (if the connecting line will be vertical)
 										
-										g2.drawString(distance+"", (((v.x+14)+(neighbor.x+14))/2)-35, 
+										g2.drawString(distance+"", (((v.x+14)+(neighbor.x+14))/2)-35, // move the text so it can be easily read
 											(((v.y+14)+(neighbor.y+14))/2));
 									
-									} else if (Math.abs(v.y-neighbor.y) < 40) {
+									} else if (Math.abs(v.y-neighbor.y) < 40) { // if the two vertices' y values are around the same (if the connecting line will be horizontal)
 										
 										g2.drawString(distance+"", (((v.x+14)+(neighbor.x+14))/2)-15, 
-												(((v.y+14)+(neighbor.y+14))/2)-17);
+												(((v.y+14)+(neighbor.y+14))/2)-17); // move the text so it can be easily read
 										
-									} else {
+									} else { // else
 										
-										g2.drawString(distance+"", (((v.x+14)+(neighbor.x+14))/2)-13, 
+										g2.drawString(distance+"", (((v.x+14)+(neighbor.x+14))/2)-13, // make it so can be read easier
 												(((v.y+14)+(neighbor.y+14))/2)-20);
 										
 									}
@@ -187,13 +187,13 @@ public class GPS <E, T> {
 					
 					for (String s : g.vertices.keySet()) { // for each vertex
 					
-						int x = g.vertices.get(s).x; // gets the x and y loc of the mouse
+						int x = g.vertices.get(s).x; // gets the x and y location of the mouse
 						int y = g.vertices.get(s).y;
 						
 						if (isOn (xLoc, yLoc, x, y)) { // if the mouse is on a vertex
 							
 							g2d.setColor(myColor); // sets the background of a rectangle to be light blue
-							g2d.fillRect(0, 0, 260, 100);
+							g2d.fillRect(0, 0, 260, 100); // draws the rectangle
 							g2d.setFont(font); // set font
 							g2d.setColor(Color.white); // change color to white
 							g2d.drawString(g.vertices.get(s).info.toString(), 7, 60); // displays the name of that vertex
@@ -246,7 +246,7 @@ public class GPS <E, T> {
 							vertexPath = g.Djikstra(vertexInfo.get(0), vertexInfo.get(1)); // use djikstras to get the shortest path 
 							// between the two vertices and save it to vertexPath
 							
-							System.out.println(vertexPath);
+							//System.out.println(vertexPath);
 							
 						} 
 						

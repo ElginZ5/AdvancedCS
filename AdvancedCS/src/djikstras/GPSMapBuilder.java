@@ -179,7 +179,7 @@ public class GPSMapBuilder <E, T> {
 				
 				if (buttonMode == 0) { // if user is creating vertices
 					
-					String name = JOptionPane.showInputDialog("What will the name of this location be?"); // gets the user inputted name of the vertex
+					String name = JOptionPane.showInputDialog("What will the name of this location be?"); // gets the user inputed name of the vertex
 					g.addVertex(name, e.getX(), e.getY()); // add the vertex to vertices
 					
 				} else { // if the user is now creating edges

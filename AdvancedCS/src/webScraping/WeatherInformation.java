@@ -51,18 +51,17 @@ public class WeatherInformation {
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setBackground(myColor);
 		bottomPanel.setPreferredSize(new Dimension(WIDTH, (HEIGHT/4)));
-		bottomPanel.setBorder(BorderFactory.createLineBorder(Color.white, 20));
+		bottomPanel.setBorder(BorderFactory.createLineBorder(Color.white, 5));
 		
 		displayArea = new JTextArea();
 		displayArea.setEditable(false);
 		displayArea.setPreferredSize(new Dimension(WIDTH-40, ((int)(HEIGHT/1.7)-10)));
 		displayArea.setBackground(Color.white);
-		displayArea.setBorder(BorderFactory.createLineBorder(myColor, 10));
-		displayArea.setText("");
+		displayArea.setBorder(BorderFactory.createLineBorder(myColor, 5));
 		
 		JTextArea textArea = new JTextArea();
 		textArea.setEditable(true);
-		textArea.setPreferredSize(new Dimension (WIDTH-40, (HEIGHT/4)-15));
+		textArea.setPreferredSize(new Dimension (WIDTH-25, (HEIGHT/4)-10));
 		textArea.setText("Enter the name of a city or place");
 		textArea.addMouseListener(new MouseListener () {
 
